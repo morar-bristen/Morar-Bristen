@@ -7,60 +7,70 @@
 using namespace std;
 
 void afiseazaStare(const string& ascuns, int greseli) {
-    cout << "Cuvant: " << ascuns << endl;
-    cout << "Greseli: " << greseli << " din 6" << endl;
+    cout << "Cuvant: " << ascuns << endl; // afisez starea curenta a cuvantului
+    cout << "Greseli: " << greseli << " din 6" << endl; // afisez numarul de greseli
 }
 
 char citesteLitera() {
-    char litera;
-    cout << "Introdu o litera: ";
-    cin >> litera;
-    return toupper(litera);
+    char litera; // variabila in care retin litera introdusa
+    cout << "Introdu o litera: "; // cer litera de la utilizator
+    cin >> litera; // citesc litera
+    return toupper(litera); // convertesc la majuscula si o returnez
 }
 
 bool verificaLitera(const string& cuvant, string& ascuns, char litera) {
-    bool gasit = false;
-    for (size_t i = 0; i < cuvant.size(); i++) {
-        if (cuvant[i] == litera) {
-            ascuns[i] = litera;
-            gasit = true;
+    bool gasit = false; // presupun ca litera nu exista in cuvant
+    for (size_t i = 0; i < cuvant.size(); i++) { // parcurg fiecare litera din cuvant
+        if (cuvant[i] == litera) { // daca litera corespunde
+            ascuns[i] = litera; // actualizez cuvantul ascuns
+            gasit = true; // marcheaza gasirea literei
         }
     }
-    return gasit;
+    return gasit; // returnez daca am gasit litera
 }
 
 int main() {
-    string cuvinte[] = {"PROGRAM", "INFORMATICA", "SPANZURATOAREA", "CARTE", "SCOALA", "ELEV"};
-    int numarCuvinte = sizeof(cuvinte) / sizeof(cuvinte[0]);
+    char optiune = 'N'; // optiunea pentru a repeta jocul
 
-    srand(static_cast<unsigned int>(time(NULL)));
-    int index = rand() % numarCuvinte;
-    string cuvant = cuvinte[index];
-    string ascuns(cuvant.size(), '-');
-    int greseli = 0;
+    do {
+        string cuvinte[] = {"PROGRAM", "INFORMATICA", "SPANZURATOAREA", "CARTE", "SCOALA", "ELEV"}; // lista de cuvinte disponibile
+        int numarCuvinte = sizeof(cuvinte) / sizeof(cuvinte[0]); // numarul de cuvinte din lista
 
-    cout << "Bine ai venit la Spanzuratoarea!" << endl;
-    cout << "Trebuie sa ghicesti un cuvant ales aleatoriu." << endl;
+        srand(static_cast<unsigned int>(time(NULL))); // initializez generatorul pentru numere aleatoare
+        int index = rand() % numarCuvinte; // aleg un index aleator din liste
+        string cuvant = cuvinte[index]; // aleg cuvantul secret
+        string ascuns(cuvant.size(), '-'); // construiesc cuvantul ascuns cu '-'
+        int greseli = 0; // initializez contorul de greseli
 
-    while (greseli < 6 && ascuns != cuvant) {
-        afiseazaStare(ascuns, greseli);
-        char litera = citesteLitera();
+        cout << "Bine ai venit la Spanzuratoarea!" << endl; // mesaj de bun venit
+        cout << "Trebuie sa ghicesti un cuvant ales aleatoriu." << endl; // explicarea jocului
+        cout << endl; // linie goala pentru separatie
 
-        if (!verificaLitera(cuvant, ascuns, litera)) {
-            cout << "Litera nu este in cuvant." << endl;
-            greseli++;
-        } else {
-            cout << "Corect!" << endl;
+        while (greseli < 6 && ascuns != cuvant) { // jocul continua pana la 6 greseli sau pana se ghiceste cuvantul
+            afiseazaStare(ascuns, greseli); // afisez starea curenta a jocului
+            char litera = citesteLitera(); // citesc litera de la utilizator
+
+            if (!verificaLitera(cuvant, ascuns, litera)) { // verific daca litera nu se gaseste in cuvant
+                cout << "Litera nu este in cuvant." << endl; // afisez mesaj de eroare
+                greseli++; // cresc numarul de greseli
+            } else {
+                cout << "Corect!" << endl; // afisez mesaj de succes
+            }
+            cout << endl; // linie goala pentru separatie
         }
-        cout << endl;
-    }
 
-    if (ascuns == cuvant) {
-        cout << "Felicitari! Ai ghicit cuvantul: " << cuvant << endl;
-        return 0;
-    } else {
-        cout << "Ai pierdut. Cuvantul era: " << cuvant << endl;
-    }
+        if (ascuns == cuvant) { // daca jucatorul a ghicit cuvantul
+            cout << "Felicitari! Ai ghicit cuvantul: " << cuvant << endl; // afisez mesaj de castig
+        } else {
+            cout << "Ai pierdut. Cuvantul era: " << cuvant << endl; // afisez mesajul de pierdere si cuvantul corect
+        }
 
-    return 0;
+        cout << endl; // linie goala inainte de optiune
+        cout << "Vrei sa joci din nou? (D/N): "; // intreb daca jucatorul doreste sa repete jocul
+        cin >> optiune; // citesc optiunea utilizatorului
+        optiune = toupper(optiune); // convertesc optiunea la majuscula
+        cout << endl; // linie goala pentru separatie
+    } while (optiune == 'D'); // daca optiunea este D, jocul se reia
+
+    return 0; // termin programul
 }
