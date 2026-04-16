@@ -11,8 +11,10 @@ int main(){
         
         cin>>n;
     if(n>random_number)
-    {attempt--;
-    cout<<"too high try again"<<endl<<"u have "<<attempt<<"remaining"<<endl;
+    {
+        attempt--;
+    
+        cout<<"too high try again"<<endl<<"u have "<<attempt<<"remaining"<<endl;
     
     }
 
@@ -25,12 +27,15 @@ int main(){
     }
 
     if(attempt==0)
-    {cout<<"no more attempts"<<endl;
+    {
+        cout<<"no more attempts"<<endl;
     return 0;}
 
 
     if(n==random_number)
-    {cout<<"congratiulations u have won"<<endl;
-    return 0;}
+    {
+        cout<<"congratiulations u have won"<<endl;
+    
+        return 0;}
     }
     return 0;}
